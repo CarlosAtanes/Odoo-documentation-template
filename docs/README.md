@@ -338,7 +338,10 @@ class TaskClassification(models.Model):
       # Si todos los registros son correctos asi que no se retorna nada
 ```
 
-<!-- Esto de aqui abajo dejalo siempre al final 
+---
+<!-- Hay que mirar donde poner todo esto -->
+---
+
 ### Método para descargar un archivo
 Para descargar un archivo mediante python podemos utlizar el siguiente método: 
 Tendremos que introcucir la esta URL: 
@@ -353,4 +356,36 @@ def download_csv(self):
   }
   return action
 ```
--->
+
+# API Externa de Odoo
+Odoo utilza el protocolo de llamada a procedimiento remoto o XML-RPC(Remote Procedure Call)
+Podemos utlizar la API externa para comunicar un sistema A hacia Odoo
+<!--No se si también se puede hacer desde Odoo hacia ese sistema-->
+<div style="display:flex;justify-content:center;"><img src="img/api_scheme.png" style="width:45vw;max-width:450px;"/></div>
+Se requiere una cuenta de usuario con contraseña asignada
+Odoo cuenta con soporte de claves API
+La clave API generada sustituirá a la contraseña en el codigo de conexión
+
+### Generar la clave API
+Para generar la clave API el usuario deberá de identificarse en el entorno de Odoo. 
+Deberemos luego clicar en la parte superior derecha donde se encuentra nuestro nombre de usuario y en el desplegable seleccionar nuestro perfil
+<div style="display:flex;justify-content:center;">
+  <img src="img/mi_usuario_api.png" style="width:45vw;max-width:450px;margin:30px"/>
+  <img src="img/preferences_api.png" style="width:45vw;max-width:450px;margin:30px"/>
+</div>
+En la pestaña de Account security veremos la opcion de crear una nueva clave API Key<br>
+Introducimos la contraseña de nuestro usuario y especificamos el propósito de dicha API<br>
+No podremos ver posteriormente la clave API por lo que tenemos que copiarla una vez creada para no perderla<br>
+Si perdemos la clave tendremos que eliminar la clave anterior y generar una nueva
+
+Para iniciar sesión mediante python, deberemos de utlizar el siguiente código: 
+```py
+import xmlrpc.client
+
+#Introducimos los datos de conexión
+url = 'url_de_instancia_de_odoo'
+db = 'nombre_de_la-base_de_datos'
+username = 'nombre_usuario'
+password = 'contraseña_o_clave_api'
+```
+El nombre de la base de datos lo encontraremos al lado del nombre en la esquina superior derecha
