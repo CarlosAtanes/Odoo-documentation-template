@@ -361,7 +361,9 @@ def download_csv(self):
 Odoo utilza el protocolo de llamada a procedimiento remoto o XML-RPC(Remote Procedure Call)
 Podemos utlizar la API externa para comunicar un sistema A hacia Odoo
 <!--No se si también se puede hacer desde Odoo hacia ese sistema-->
+<br>
 <div style="display:flex;justify-content:center;"><img src="img/api_scheme.png" style="width:45vw;max-width:450px;"/></div>
+<br>
 Se requiere una cuenta de usuario con contraseña asignada
 Odoo cuenta con soporte de claves API
 La clave API generada sustituirá a la contraseña en el codigo de conexión
@@ -369,15 +371,19 @@ La clave API generada sustituirá a la contraseña en el codigo de conexión
 ### Generar la clave API
 Para generar la clave API el usuario deberá de identificarse en el entorno de Odoo. 
 Deberemos luego clicar en la parte superior derecha donde se encuentra nuestro nombre de usuario y en el desplegable seleccionar nuestro perfil
+<br>
 <div style="display:flex;justify-content:center;">
   <img src="img/mi_usuario_api.png" style="width:45vw;max-width:450px;margin:30px"/>
   <img src="img/preferences_api.png" style="width:45vw;max-width:450px;margin:30px"/>
 </div>
+<br>
+
 En la pestaña de Account security veremos la opcion de crear una nueva clave API Key<br>
 Introducimos la contraseña de nuestro usuario y especificamos el propósito de dicha API<br>
 No podremos ver posteriormente la clave API por lo que tenemos que copiarla una vez creada para no perderla<br>
-Si perdemos la clave tendremos que eliminar la clave anterior y generar una nueva
+Si perdemos la clave tendremos que eliminar la clave anterior y generar una nueva <br>
 
+### Inicio de sesión mediante python
 Para iniciar sesión mediante python, deberemos de utlizar el siguiente código: 
 ```py
 import xmlrpc.client
@@ -387,5 +393,129 @@ url = 'url_de_instancia_de_odoo'
 db = 'nombre_de_la-base_de_datos'
 username = 'nombre_usuario'
 password = 'contraseña_o_clave_api'
+
+#Verificamos que la conexión es correcta
+common = xmlrpc.client.ServerProxy('{}/xmlrpc/2/common'.format(url))
+#La función versión nos trae información básica de como se ajusta nuestra conexión
+print(common.version())
+
+#Invocamos la función authenticate que devolverá un identificador del usuario(uid)
+uid = common.authenticate(db, username, pasword, {})
+print('UID: ', uid)
 ```
-El nombre de la base de datos lo encontraremos al lado del nombre en la esquina superior derecha
+El campo `url` será la url base que tenemos en el navegador
+El campo `username` será nuestro nombre de usuario
+El campo `password` puede ser la contraseña o la clave API
+El nombre de la base de datos `db` lo encontraremos al lado del nombre en la esquina superior derecha, si nos encontramos en el modo debug 
+<div style="display:flex;justify-content:center;">
+  <img src="img/db_name.png" style="width:45vw;max-width:450px;margin:30px"/>
+</div>
+
+### Llamar métodos a través de la API externa de Odoo
+
+Utilizaremos el endpoint xmlrpc/2/object para obtener un objeto que usaremos para invocar o llamar métodos de modelos Odoo<br>
+Los métodos se ejecutan a través de la función RPC `execute_kw`<br>
+Cada llamada toma los siguientes parámetros: <br>
+  - `db` La base de datos a usar
+  - `uid` La identificación del usuario
+  - `password` La contraseña del usuario
+  - `model` El nombre del modelo 
+  - `method` El nombre del modelo  
+  - Un mapeo de parámetros para pasar por la palabra clave (opcional)<br>
+```py
+import xmlrpc.client
+
+#Introducimos los datos de conexión
+url = 'url_de_instancia_de_odoo'
+db = 'nombre_de_la-base_de_datos'
+username = 'nombre_usuario'
+password = 'contraseña_o_clave_api'
+
+#Verificamos que la conexión es correcta
+common = xmlrpc.client.ServerProxy('{}/xmlrpc/2/common'.format(url))
+#La función versión nos trae información básica de como se ajusta nuestra conexión
+print(common.version())
+
+#Invocamos la función authenticate que devolverá un identificador del usuario(uid)
+uid = common.authenticate(db, username, pasword, {})
+
+#Llamada a método a través de execute_kw
+models = xmlrpc.client.ServerProxy('{}/xmlrpc/2/object'.format(url))
+
+result_button_draft = models.execute_kw(db, uid, password, 'model', 'method', [parametros])
+
+
+```
+
+### Método READ desde la API externa de Odoo
+Con el método `read()` podemos acceder a los datps de registro<br>
+Para obtener uno o más registros se neceista uan lista de ids como nos devuelve el método `search()`<br>
+Podemos pasar una lista de los nombres de los campos que se desea obtener por cada registro<br>
+Si no se le indica el nombre de los campos a obtener, obtiene todos los campos que el usuario pueda leer<br>
+
+<!--Tengo dudas de donde se especifica la id de las cosas que traigo 
+  Y también si se puede traer los datos en función de otros parámetros-->
+```py
+import xmlrpc.client
+
+#Introducimos los datos de conexión
+url = 'url_de_instancia_de_odoo'
+db = 'nombre_de_la-base_de_datos'
+username = 'nombre_usuario'
+password = 'contraseña_o_clave_api'
+
+#Verificamos que la conexión es correcta
+common = xmlrpc.client.ServerProxy('{}/xmlrpc/2/common'.format(url))
+#La función versión nos trae información básica de como se ajusta nuestra conexión
+print(common.version())
+
+#Invocamos la función authenticate que devolverá un identificador del usuario(uid)
+uid = common.authenticate(db, username, pasword, {})
+
+#Llamada a método a través de execute_kw
+models = xmlrpc.client.ServerProxy('{}/xmlrpc/2/object'.format(url))
+
+#Método read
+result_execute = models.execute_kw(db, uid, password, 'modelo', 'read',[[data]] )
+
+
+#Puedo especificar los fields de la siguiente manera: 
+result_execute = models.execute_kw(db, uid, password, 'modelo', 'read',[[data]], {'fields': ['name', 'country_id', 'comment']} )
+
+```
+### Archivar Registros en Odoo a través de la API externa
+
+Cualquier registro en Odoo se puede archivar si el modelo al que pertenece cuenta con el campo reservado llamado active
+Para comprobar esto clicamos el icono de debug y entramos en la sección de campos
+
+<div style="display:flex;justify-content:center;">
+  <img src="img/ver_campos.png" style="width:45vw;max-width:450px;margin:30px"/>
+</div>
+
+Para archivar desde la API externa utilizamos el método `action_archive()` pasándole como parámetro los IDs de los registros que se desean archivar<br>
+Para desarchivar desde la API externa utilizamos el método `action_unarchive()` pasándole como parámetro los IDs de los registros que se desean archivar<br>
+También tenemos el método `toggle_active()` para archivar o desarchivar dependiendo del valor actual del campo<br>
+
+```py
+import xmlrpc.client
+
+#Introducimos los datos de conexión
+url = 'url_de_instancia_de_odoo'
+db = 'nombre_de_la-base_de_datos'
+username = 'nombre_usuario'
+password = 'contraseña_o_clave_api'
+
+#Verificamos que la conexión es correcta
+common = xmlrpc.client.ServerProxy('{}/xmlrpc/2/common'.format(url))
+#La función versión nos trae información básica de como se ajusta nuestra conexión
+print(common.version())
+
+#Invocamos la función authenticate que devolverá un identificador del usuario(uid)
+uid = common.authenticate(db, username, pasword, {})
+
+#Llamada a método a través de execute_kw
+models = xmlrpc.client.ServerProxy('{}/xmlrpc/2/object'.format(url))
+
+models.execute_kw(db, uid, password, 'modelo', 'action_archive' [[idusuario1, idusuario2]])
+
+```
