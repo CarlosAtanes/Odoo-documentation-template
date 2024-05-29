@@ -1,0 +1,32 @@
+<!-- test_addon_one2many_view.xml -->
+
+<odoo>
+    <record id="view_form_test_addon_one2many" model="ir.ui.view">
+        <field name="name">test.addon.form.one2many</field>
+        <field name="model">test.addon.model</field>
+        <field name="arch" type="xml">
+            <form string="Test Addon One2many">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="description"/>
+                        <field name="related_model_ids">
+                            <tree string="Related Records">
+                                <field name="related_field1"/>
+                                <field name="related_field2"/>
+                            </tree>
+                            <form string="Related Record">
+                                <sheet>
+                                    <group>
+                                        <field name="related_field1"/>
+                                        <field name="related_field2"/>
+                                    </group>
+                                </sheet>
+                            </form>
+                        </field>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

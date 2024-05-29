@@ -1,0 +1,17 @@
+<!-- test_addon_search_view.xml -->
+
+<odoo>
+    <record id="view_search_test_addon" model="ir.ui.view">
+        <field name="name">test.addon.search</field>
+        <field name="model">test.addon.model</field>
+        <field name="arch" type="xml">
+            <search string="Search Test Addon">
+                <field name="name"/>
+                <field name="description"/>
+                <!-- Filtros predeterminados -->
+                <filter string="Name" name="name_filter" domain="[('name', '!=', False)]"/>
+                <filter string="Description" name="description_filter" domain="[('description', '!=', False)]"/>
+            </search>
+        </field>
+    </record>
+</odoo>

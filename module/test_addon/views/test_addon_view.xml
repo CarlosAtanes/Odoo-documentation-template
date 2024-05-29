@@ -1,0 +1,43 @@
+<!-- test_addon_view.xml -->
+
+<odoo>
+    <!-- Definición de una vista de formulario -->
+    <record id="view_form_test_addon" model="ir.ui.view">
+        <field name="name">test.addon.form</field>
+        <field name="model">test.addon.model</field>
+        <field name="arch" type="xml">
+            <form string="Test Addon">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="description"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Definición de una vista de árbol -->
+    <record id="view_tree_test_addon" model="ir.ui.view">
+        <field name="name">test.addon.tree</field>
+        <field name="model">test.addon.model</field>
+        <field name="arch" type="xml">
+            <tree string="Test Addon">
+                <field name="name"/>
+                <field name="description"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Acción para abrir la vista del modelo -->
+    <record id="action_test_addon" model="ir.actions.act_window">
+        <field name="name">Test Addon</field>
+        <field name="res_model">test.addon.model</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- Menú para acceder a la vista del modelo -->
+    <menuitem id="menu_test_addon_root" name="Test Addon"/>
+    <menuitem id="menu_test_addon" name="Test Addon" parent="menu_test_addon_root" action="action_test_addon"/>
+</odoo>

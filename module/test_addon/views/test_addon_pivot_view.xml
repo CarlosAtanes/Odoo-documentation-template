@@ -1,0 +1,14 @@
+<!-- test_addon_pivot_view.xml -->
+
+<odoo>
+    <record id="view_pivot_test_addon" model="ir.ui.view">
+        <field name="name">test.addon.pivot</field>
+        <field name="model">test.addon.model</field>
+        <field name="arch" type="xml">
+            <pivot string="Test Addon Pivot">
+                <field name="name" type="row"/>
+                <field name="description" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+</odoo>

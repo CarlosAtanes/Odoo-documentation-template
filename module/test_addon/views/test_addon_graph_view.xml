@@ -1,0 +1,14 @@
+<!-- test_addon_graph_view.xml -->
+
+<odoo>
+    <record id="view_graph_test_addon" model="ir.ui.view">
+        <field name="name">test.addon.graph</field>
+        <field name="model">test.addon.model</field>
+        <field name="arch" type="xml">
+            <graph string="Test Addon Graph" type="bar">
+                <field name="name"/>
+                <field name="description" type="measure"/>
+            </graph>
+        </field>
+    </record>
+</odoo>

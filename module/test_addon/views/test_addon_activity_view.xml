@@ -1,0 +1,14 @@
+<!-- test_addon_activity_view.xml -->
+
+<odoo>
+    <record id="view_activity_test_addon" model="ir.ui.view">
+        <field name="name">test.addon.activity</field>
+        <field name="model">test.addon.model</field>
+        <field name="arch" type="xml">
+            <activity string="Test Addon Activities">
+                <field name="name"/>
+                <field name="description"/>
+            </activity>
+        </field>
+    </record>
+</odoo>

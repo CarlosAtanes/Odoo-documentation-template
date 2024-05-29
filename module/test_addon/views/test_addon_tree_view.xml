@@ -1,0 +1,17 @@
+<!-- test_addon_tree_view.xml -->
+
+<odoo>
+    <record id="view_tree_test_addon" model="ir.ui.view">
+        <field name="name">test.addon.tree</field>
+        <field name="model">test.addon.model</field>
+        <field name="arch" type="xml">
+            <tree string="Test Addon">
+                <field name="name"/>
+                <field name="description"/>
+                <field name="related_model_id"/>
+                <field name="date"/>
+                <field name="status"/>
+            </tree>
+        </field>
+    </record>
+</odoo>

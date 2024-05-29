@@ -1,0 +1,19 @@
+<!-- test_addon_many2one_view.xml -->
+
+<odoo>
+    <record id="view_form_test_addon_many2one" model="ir.ui.view">
+        <field name="name">test.addon.form.many2one</field>
+        <field name="model">test.addon.model</field>
+        <field name="arch" type="xml">
+            <form string="Test Addon Many2one">
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="description"/>
+                        <field name="related_model_id"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

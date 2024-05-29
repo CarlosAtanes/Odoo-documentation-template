@@ -1,0 +1,16 @@
+<!-- test_addon_calendar_view.xml -->
+
+<odoo>
+    <record id="view_calendar_test_addon" model="ir.ui.view">
+        <field name="name">test.addon.calendar</field>
+        <field name="model">test.addon.model</field>
+        <field name="arch" type="xml">
+            <calendar string="Test Addon Calendar"
+                      date_start="start_date"
+                      date_stop="end_date">
+                <field name="name"/>
+                <field name="description"/>
+            </calendar>
+        </field>
+    </record>
+</odoo>

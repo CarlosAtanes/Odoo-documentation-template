@@ -1,0 +1,28 @@
+<!-- test_addon_notebook_view.xml -->
+
+<odoo>
+    <record id="view_form_test_addon_notebook" model="ir.ui.view">
+        <field name="name">test.addon.form.notebook</field>
+        <field name="model">test.addon.model</field>
+        <field name="arch" type="xml">
+            <form string="Test Addon Notebook">
+                <sheet>
+                    <notebook>
+                        <page string="General Information">
+                            <group>
+                                <field name="name"/>
+                                <field name="description"/>
+                            </group>
+                        </page>
+                        <page string="Additional Information">
+                            <group>
+                                <field name="additional_field1"/>
+                                <field name="additional_field2"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

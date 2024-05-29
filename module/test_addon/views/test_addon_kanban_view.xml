@@ -1,0 +1,20 @@
+<!-- test_addon_kanban_view.xml -->
+
+<odoo>
+    <record id="view_kanban_test_addon" model="ir.ui.view">
+        <field name="name">test.addon.kanban</field>
+        <field name="model">test.addon.model</field>
+        <field name="arch" type="xml">
+            <kanban string="Test Addon">
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_card">
+                            <strong><field name="name"/></strong>
+                            <div><field name="description"/></div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+</odoo>
