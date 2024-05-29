@@ -188,3 +188,20 @@ En el **atributo** `position` es la operación que se aplica al elemento encontr
 <br>
 
 >En este ejemplo, lo que se realiza es colocar un nuevo campo despues del campo descripción.
+
+
+<!-- Esto de aqui abajo dejalo siempre al final -->
+### Método para descargar un archivo
+Para descargar un archivo mediante python podemos utlizar el siguiente método: 
+Tendremos que introcucir la esta URL: 
+  URL/web/content/?model=ir.attachment&id=ID_IR_ATTACHMENT&filename_field=name&field=datas&download=true&name=NOMBRE_QUE_QUEREMOS_DAR_ALARCHIVO
+Este es el método en python: 
+```py
+def download_csv(self):
+  action = {
+    'type': 'ir.actions.act_url',
+    'url': 'web/content/?model=ir.attatchment&id=' + str(self.l10n_id_attachment_id.id) + "&filename_field=name&field=datas&download=true&name" + self.l10n_id_attachment_id.name,
+    'target': 'self'
+  }
+  return action
+```
