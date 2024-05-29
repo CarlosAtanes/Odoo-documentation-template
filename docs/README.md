@@ -128,40 +128,63 @@ Para heredar un modelo, en **la clase** del archivo que queramos hacer que hered
 - **Una vez en un modelo heredado** se puede sobreescribir por completo un método.
 - Para sobreescribir un método basta con agregar el nombre del método con la misma cantidad de parametros que el método original.
 - Dentro del método se puede invocar a la funcionalidad original hablando al método de la super clase. Para ello se utiliza `super(NombreClase, self).método_original()`
-<div style="display:flex;justify-content:center;"><img src="img/method_inherit.png" style="width: 45vw;max-width:850px;"/></div>
+<div style="display:flex;justify-content:center;"><img src="img/method_inherit.png" style="width: 55vw;max-width:850px;"/></div>
 <br>
+
 - El método modificado debería de retornar siempre el mismo tipo de dato del método original.
 
 ## Herencia en **vistas XML**
 ### Como heredar una vista
+<br>
 Para heredar una vista, se agrega el tag `inherit_id` donde se indica el `id` de la vista que se desea heredar. Por ejemplo:
+
 ```xml
 <field name="inherit_id" ref="id_de_vista_a_heredar" />
 ```
 Para obtener el `id` de la vista que se desea heredar se activa el modo debug, en la vista que se desea heredar y se selecciona el menú **Vista de edición**
 Se abrirá un *modal* del cual podemos ver nuestro `id` en el campo
-<div style="display:flex;justify-content:center;"><img src="img/xml_inherit.png" style="width: 45vw;max-width:1000px;"/></div>
+<div style="display:flex;justify-content:center;"><img src="img/xml_inherit.png" style="width: 65vw;max-width:1000px;"/></div>
 <br>
 Dentro de la sección `arch` se puede colocar tantos tag `xpath` como se deseen
 Los elementos `xpath` permite seleccionar y alterar contenido de la vista padre
 En el atributo `expr` del tag `xpath` se selecciona el elemento de la vista. Este debe exitir, de lo contrario marcará <span style="color:red;">error</span>
+
+### Ejemplos
+<br>
 Para localizar un elemento `xpath` declarado como 
 
 ```xml
 <field name="descripción" />
 ```
+<br>
 se usa:
 
 ```xml
 //field[@name='descripcion']
 ```
-
-Para localizar un elemento un elemento con `xpath` declarado como
+<br>
+Para localizar un elemento `xpath` declarado como 
 
 ```xml
-<page string="Título página (pestaña) 1" name="nombre_página">
+<button name="button_confirm" type="object" string="Confirm Order" id="draft_confirm" />
+```
+<br>
+se usa:
+
+```xml
+//button[@id='draft_confirm']
 ```
 
 [Explicación en video de](https://youtu.be/2Z0LMc90PCM?feature=shared&t=432) [Josuhe Uh](https://www.youtube.com/@jos.uh.e)
 
-Esto es un test
+En el **atributo** `position` es la operación que se aplica al elemento encontrado. Puede tener diferentes valores:
+- `Inside` -> Dentro del elemento encontrado.
+- `Replace` -> Reemplaza el elemento por el que se especifique.
+- `Before` -> Colocará el nuevo elemento **antes** que el elemento encontrado.
+- `After` -> Colocará el nuevo elemento **después** de el elemento encontrado.
+- `Attributes` -> Modificará los atributos del elemento encontrado.
+
+<div style="display:flex;justify-content:center;"><img src="img/attr_position.png" style="width:60vw;max-width:1000px;"/></div>
+<br>
+
+>En este ejemplo, lo que se realiza es colocar un nuevo campo despues del campo descripción.
