@@ -105,19 +105,61 @@ test_addon/
   - Menús
 
 ### Ejemplo
-<img src="xml_example.png" style="width: 45vw;max-width:450px;" />
+<div style="display:flex;justify-content:center;"><img src="img/xml_example.png" style="width:45vw;max-width:450px;"/></div>
 
 ## Herencias en Odoo
 El código base de Odoo **nunca** debería de modificarse.
 
 En lugar de sobreescribir las vistas o modelos existentes para agregar eliminar o modificar funcionalidades existentes, deberemos de usar **herencias**. Estas modificaciones pueden ser a nivel de modelo, vista o lógica de negocio.<br>
 En el archivo `__manifest__.py` en la sección `depends` se deberá indicar los módulos o aplicaciones que se heredan.<br>
-En **la clase** del archivo que queramos hacer que herede, sustituimos la palabra reservada `_name` por `_inhert` doonde pondremos el nombre del modelo ya existente.
+
+## Herencias de **modelo y método**
+### Como heredar un modelo
+Para heredar un modelo, en **la clase** del archivo que queramos hacer que herede, sustituimos la palabra reservada `_name` por `_inhert` doonde pondremos el nombre del modelo ya existente.
 
 ### Cosas que podemos lograr heredando **de un modelo existente**:
 - Agregar campos nuevos
 - Anular la definición de campos
 - Agregar restricciones o funcionalidades adicionales
 - Agregar métodos y funcionalidades nuevas
-- Anular médotos o procesos
+- Anular métodos o procesos
 
+### Herencia de métodos en los modelos
+- **Una vez en un modelo heredado** se puede sobreescribir por completo un método.
+- Para sobreescribir un método basta con agregar el nombre del método con la misma cantidad de parametros que el método original.
+- Dentro del método se puede invocar a la funcionalidad original hablando al método de la super clase. Para ello se utiliza `super(NombreClase, self).método_original()`
+<div style="display:flex;justify-content:center;"><img src="img/method_inherit.png" style="width: 45vw;max-width:850px;"/></div>
+<br>
+- El método modificado debería de retornar siempre el mismo tipo de dato del método original.
+
+## Herencia en **vistas XML**
+### Como heredar una vista
+Para heredar una vista, se agrega el tag `inherit_id` donde se indica el `id` de la vista que se desea heredar. Por ejemplo:
+```xml
+<field name="inherit_id" ref="id_de_vista_a_heredar" />
+```
+Para obtener el `id` de la vista que se desea heredar se activa el modo debug, en la vista que se desea heredar y se selecciona el menú **Vista de edición**
+Se abrirá un *modal* del cual podemos ver nuestro `id` en el campo
+<div style="display:flex;justify-content:center;"><img src="img/xml_inherit.png" style="width: 45vw;max-width:1000px;"/></div>
+<br>
+Dentro de la sección `arch` se puede colocar tantos tag `xpath` como se deseen
+Los elementos `xpath` permite seleccionar y alterar contenido de la vista padre
+En el atributo `expr` del tag `xpath` se selecciona el elemento de la vista. Este debe exitir, de lo contrario marcará <span style="color:red;">error</span>
+Para localizar un elemento `xpath` declarado como 
+
+```xml
+<field name="descripción" />
+```
+se usa:
+
+```xml
+//field[@name='descripcion']
+```
+
+Para localizar un elemento un elemento con `xpath` declarado como
+
+```xml
+<page string="Título página (pestaña) 1" name="nombre_página">
+```
+
+[Explicación en video de](https://youtu.be/2Z0LMc90PCM?feature=shared&t=432) [Josuhe Uh](https://www.youtube.com/@jos.uh.e)
