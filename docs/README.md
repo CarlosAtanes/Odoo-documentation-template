@@ -100,7 +100,7 @@ test_addon/
 - Sobre el mismo XML se deberia declarar todas las vistas, acciones y menús relacionados al mismo modelo.
 - Se deberia declarar en el siguiente orden:
   - Vistas
-  - Acciopnes de venta
+  - Acciones de venta
   - Acciones del servidor
   - Menús
 
