@@ -10,7 +10,6 @@
     'website': 'https://www.campigroup.es',
     'depends': ['base'],
     'data': [
-        'security/ir.model.access.csv',
         'views/book_views.xml',
     ],
     'installable': True,
