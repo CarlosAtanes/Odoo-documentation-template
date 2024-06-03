@@ -9,7 +9,8 @@
     'depends': ['base'],
     'data': [
         'security/ir.model.access.csv',
-        'views/amz_con_views.xml',
+        'views/amazon_integration_views.xml',
+        'data/amazon_integration_data.xml'
     ],
     'installable': True,
     'application': True,
