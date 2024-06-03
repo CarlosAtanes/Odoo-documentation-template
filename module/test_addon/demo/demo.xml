@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="test_addon_demo_record_2" model="ir.model.data">
+        <field name="name">demo_record_2</field>
+        <field name="model">test.addon</field>
+        <field name="module">test_addon</field>
+        <field name="res_id" eval="3"/>
+    </record>
+</odoo>
